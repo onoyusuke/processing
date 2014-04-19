@@ -3,6 +3,11 @@ Trail A.
 15 April 2014.
 oy.
 */
+
+// 設定(ここから) -------------------------------------------
+
+// ファイル名
+String fname = "OnoYusuke";
 // テストの実施回数
 int KAISU = 3;
 // 半径
@@ -11,6 +16,9 @@ int HANKEI = 10;
 int KOSU = 3;
 // 円の最低限度の間隔
 float KANKAKU  = HANKEI * 2.5;
+
+// 設定(ここまで) -------------------------------------------
+
 //　円の色
 color IRO1 = #C4969F;
 color IRO2 = #FFFFFF;
@@ -48,6 +56,20 @@ size (640,400);
 font = loadFont("SansSerif-12.vlw");
 textFont(font);
 textAlign(CENTER, CENTER);
+
+// filename
+String sy = str ( year() );
+String sm; 
+if ( month()<10 ) sm = "0"+str( month() ); else sm = str( month() );
+String sd;
+if ( day()<10 ) sd = "0"+str( day() ); else sd = str( day() );
+String sh;
+if ( hour()<10 ) sh = "0"+str( hour() ); else sh = str( hour() );
+String smi;
+if ( minute()<10 ) smi = "0"+str( minute() ); else smi = str( minute() );
+String ss;
+if ( second()<10 ) ss = "0"+str( second() ); else ss = str( second() );
+fname = "./data/" + fname + "_" + sy + sm + sd + "_" + sh + smi + ss;
 }
 
 void draw(){
@@ -88,36 +110,37 @@ if (mousePressed && (sentaku < KOSU-1)){
 }  
 
 // 0が選ばれた瞬間をとらえる場合
-if (sentaku >=0 && s_setted==false){
+if (sentaku >=0 && !s_setted){
   s_timer = timer;
   s_setted = true;
 }
 
-// 完了. 祝福のメッセージ表示. 時間保存. 
+// 最後の円まで到達 
 if ( sentaku == KOSU-1 ){
-
-  textFont(font);
-  text("Completed.", en_x[sentaku],en_y[sentaku]+30);
-
+// 到達した瞬間の検知
 if ( e_setted==false ){
 int keika = timer - s_timer;
 println("所要時間："+ keika);
 kiroku[nankaime-1] = str(keika);
 e_setted = true;
 }
-}
-
-if ( sentaku == KOSU-1 && keyPressed ){
-  if (nankaime == KAISU)
-  {
-    saveStrings("times.txt", kiroku);
-  }
-  else{
+// 最終回か否かを調べ、メッセージ表示。
+// その後、最終回ならファイル保存。次のゲームがあるならキー入力を待つ。
+if (nankaime == KAISU){  
+// 最終回：メッセージ表示
+  text("Completed.", en_x[sentaku],en_y[sentaku]+30);
+// 最終回：ファイル保存
+  saveStrings(fname+".txt", kiroku);
+} else {
+// 次のゲームあり：メッセージ表示
+  text("Hit any key for another play.", en_x[sentaku],en_y[sentaku]+30);
+// 次のゲームあり：次のゲーム開始のためのキー入力を待つ
+if ( keyPressed ){
   saishokara = true;
   nankaime++;
   }
 }
-  
+}  
 
 }
 
