@@ -32,9 +32,6 @@ int sentaku = -1;
 // 始まりかどうか
 boolean saishokara = true;
 
-// フォント
-PFont font;
-
 // タイマー
 int timer;
 boolean s_setted;
@@ -52,9 +49,8 @@ void setup(){
 size (640,400);
 
 
-// フォント
-font = loadFont("SansSerif-12.vlw");
-textFont(font);
+// 文字設定
+textSize(12);
 textAlign(CENTER, CENTER);
 
 // filename
@@ -133,7 +129,7 @@ if (nankaime == KAISU){
   saveStrings(fname+".txt", kiroku);
 } else {
 // 次のゲームあり：メッセージ表示
-  text("Hit any key for another play.", en_x[sentaku],en_y[sentaku]+30);
+  text("Press any key.", en_x[sentaku],en_y[sentaku]+30);
 // 次のゲームあり：次のゲーム開始のためのキー入力を待つ
 if ( keyPressed ){
   saishokara = true;
