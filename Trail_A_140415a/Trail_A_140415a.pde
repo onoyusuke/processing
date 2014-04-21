@@ -2,12 +2,13 @@
 Trail A.
 15 April 2014.
 oy.
+21 April 2014. Data are saved as JSON format.
 */
 
 // 設定(ここから) -------------------------------------------
 
 // ファイル名
-String fname = "OnoYusuke";
+String subjectName = "OnoYusuke";
 // テストの実施回数
 int KAISU = 3;
 // 半径
@@ -43,6 +44,12 @@ int nankaime = 1;
 
 // ファイルへの記録
 String[] kiroku = new String[KAISU];
+String fname;
+
+// 日付用変数
+String sy;
+String sm; 
+String sd;
 
 void setup(){
 
@@ -54,10 +61,8 @@ textSize(12);
 textAlign(CENTER, CENTER);
 
 // filename
-String sy = str ( year() );
-String sm; 
+sy = str ( year() );
 if ( month()<10 ) sm = "0"+str( month() ); else sm = str( month() );
-String sd;
 if ( day()<10 ) sd = "0"+str( day() ); else sd = str( day() );
 String sh;
 if ( hour()<10 ) sh = "0"+str( hour() ); else sh = str( hour() );
@@ -65,7 +70,7 @@ String smi;
 if ( minute()<10 ) smi = "0"+str( minute() ); else smi = str( minute() );
 String ss;
 if ( second()<10 ) ss = "0"+str( second() ); else ss = str( second() );
-fname = "./data/" + fname + "_" + sy + sm + sd + "_" + sh + smi + ss;
+fname = "./data/" + subjectName + "_" + sy + sm + sd + "_" + sh + smi + ss;
 }
 
 void draw(){
@@ -126,7 +131,20 @@ if (nankaime == KAISU){
 // 最終回：メッセージ表示
   text("Completed.", en_x[sentaku],en_y[sentaku]+30);
 // 最終回：ファイル保存
+//　テキスト(ただ数字を並べただけ)
   saveStrings(fname+".txt", kiroku);
+// JSON
+JSONArray values = new JSONArray();
+for (int i = 0; i < kiroku.length; i++){
+JSONObject json = new JSONObject();    
+    json.setString ( "date", sy + sm + sd );
+    json.setString ( "name", subjectName );
+    json.setInt ( "count", i+1 );
+    json.setInt ( "time", int(kiroku[i]) ); 
+    values.setJSONObject(i, json);
+  }
+    saveJSONArray (values, fname+".json");
+
 } else {
 // 次のゲームあり：メッセージ表示
   text("Press any key.", en_x[sentaku],en_y[sentaku]+30);
