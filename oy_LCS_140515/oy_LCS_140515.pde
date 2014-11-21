@@ -70,17 +70,18 @@ else{
   fill(255);
   }
 sphere(5);
+//text (i, 0,0,0);
 popMatrix();
 
 }
-
-
-translate(-v[0].x, -v[0].y, -v[0].z);
 
 applyMatrix( kitei[0].x, kitei[0].y, kitei[0].z,0,
  kitei[1].x, kitei[1].y, kitei[1].z,0,
   kitei[2].x, kitei[2].y, kitei[2].z,0,
   0,0,0,1);
+translate(-v[0].x, -v[0].y, -v[0].z);
+
+
 
 
 stroke(255,0,0);
@@ -94,6 +95,7 @@ pushMatrix();
 
 translate(v[i].x, v[i].y, v[i].z);
 fill(255,0,0);
+//text (i, 0,0,0);
 sphere(5);
 popMatrix();
 
