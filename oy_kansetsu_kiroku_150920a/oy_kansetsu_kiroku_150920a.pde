@@ -28,7 +28,7 @@ int keika; //プログラムが開始してからの経過時間をミリ秒で�
 int kaishi=0; // tabが押された時間を記録
 boolean s_zikan=false;
 
-int s_bango=0;
+int s_bango=-1;
 
 PVector[][] k_zahyo = new PVector[Kazu][kiroku_su+1];
 // JSON
@@ -103,6 +103,8 @@ void draw() {
 
  int bango = int((keika-kaishi)/kiroku_shuki);
 
+if (!s_zikan){bango=0;}
+
   if (s_bango!=bango){
 
   k_zahyo[0][bango] = rightHand;  // 右手
@@ -133,7 +135,7 @@ s_bango=bango;
    
     values.setJSONObject(i, json);
   }
-    saveJSONArray (values, "./data/"+k_namae[j]+"_"+fname+".json");
+    saveJSONArray (values, "../data_kansetsu/"+k_namae[j]+"_"+fname+".json");
    }
   exit();
     
