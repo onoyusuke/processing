@@ -25,10 +25,10 @@ int kiroku_shuki = 1000/kiroku_rate; // 周期
 int kiroku_byo = 5;// 計測時間
 int kiroku_su = kiroku_byo * kiroku_rate; // 記録数
 int keika; //プログラムが開始してからの経過時間をミリ秒で測る。
-int kaishi=0; // tabが押された時間を記録
+int kaishi; // tabが押された時間を記録
 boolean s_zikan=false;
 
-int s_bango=-1;
+int s_bango;
 
 PVector[][] k_zahyo = new PVector[Kazu][kiroku_su+1];
 // JSON
@@ -103,7 +103,10 @@ void draw() {
 
  int bango = int((keika-kaishi)/kiroku_shuki);
 
-if (!s_zikan){bango=0;}
+  if (!s_zikan){
+  bango=0;
+  s_bango=-1;
+  }
 
   if (s_bango!=bango){
 
@@ -117,7 +120,7 @@ if (!s_zikan){bango=0;}
   k_zahyo[7][bango] = Neck;  
   k_zahyo[8][bango] = Head;  
  
-s_bango=bango;
+  s_bango=bango;
   }
   // 記録
   if((bango>=kiroku_su) && s_zikan){
@@ -127,7 +130,7 @@ s_bango=bango;
   for (int i = 0; i < kiroku_su+1; i++){
       json = new JSONObject();
     
-    json.setInt ( "mm sec", i*kiroku_shuki );
+    json.setInt ( "msec", i*kiroku_shuki );
 
     json.setFloat ( "x", k_zahyo[j][i].x );
     json.setFloat ( "y", k_zahyo[j][i].y );
