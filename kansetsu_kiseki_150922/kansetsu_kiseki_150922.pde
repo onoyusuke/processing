@@ -2,54 +2,48 @@
 2015/9/22
 関節運動の軌跡を図示する。
 3次元空間上に点を打ってつなげる。
+
+操作：
+まず、右ドラッグでzoom out.
+カーソルキー上下
+
 */
 
-
-
-
  import peasy.*;
-
  PeasyCam camera;
 
-
-
 String basho = "../data_kansetsu/";
-String[] kansetsu = {"LeftShoulder_test", "LeftElbow_test", "LeftHand_test", 
-"Head_test", "Neck_test", "Torso_test", 
-"rightShoulder_test", "rightElbow_test", "rightHand_test"};
+String[] kansetsu = {
+  "LeftShoulder_test", "LeftElbow_test", "LeftHand_test", 
+  "Head_test", "Neck_test", "Torso_test", 
+  "rightShoulder_test", "rightElbow_test", "rightHand_test"};
+
 int[] sen1 = {0,1,2};
 int[] sen2 = {3,4,5};
 int[] sen3 = {6,7,8};
 
-int kansetsuKazu = kansetsu.length;  // 同時に表示する関節の数
-int zikanKosu = 51; // 同時に表示する軌跡の個数
-
-String[] fname = new String[kansetsuKazu];
-
-color[] iro = {#F20F98, #0F3EF2, #0FF2E5};
+color[] iro = {
+  #F20F98, #F20F98,#F20F98,
+  #FFF300, #0FF2E5, #0FF2E5,
+  #0F3EF2, #0F3EF2, #0F3EF2};
 // #F20F98 赤風
 // #0F3EF2 青風
 // #0FF2E5 水色
 int bgColor = 250; // 背景色
 
-
-// どのように線を描くか
-int[] senPattern = {1,2,3,4,5,6,7,8};
-int[][] sen = {senPattern, senPattern, senPattern};
-
+int zikanKosu = 101; // 同時に表示する軌跡の個数. 記録時間に対応.
+int kansetsuKazu = kansetsu.length;  // 同時に表示する関節の数
+String[] fname = new String[kansetsuKazu];
 
 JSONArray values;
-PVector[][] kansetsuPoints;
+PVector[][] kansetsuPoints = new PVector[kansetsuKazu][zikanKosu];
+int[] msecZikan = new int[zikanKosu];
 
 int zikan = 0;
 
-
-
 void setup() {
 size(512, 768, P3D);
-
-  camera = new PeasyCam(this, 0, 0, 0, 50);  
-
+  camera = new PeasyCam(this, 0, 0, 0, 0);  
 
 //
 // ファイル名設定
@@ -61,9 +55,6 @@ fname[i] = basho + kansetsu[i] +".json";
 println(fname[i]);
 }
 
-// kansetsuPointsの要素数
-kansetsuPoints = new PVector[kansetsuKazu][zikanKosu];
-
 //
 //　読み込み
 // 
@@ -73,6 +64,7 @@ for (int j = 0 ; j<kansetsuKazu; j++){
   for (int i = 0; i < zikanKosu; i+=1){
     JSONObject json = values.getJSONObject(i);
     kansetsuPoints[j][i] = new PVector ( json.getFloat("x"), json.getFloat ( "y" ),json.getFloat ( "z" ));
+    msecZikan[i] = json.getInt("msec");
   }
 }
 
@@ -84,14 +76,16 @@ void draw() {
 
   background(bgColor);
 
-for (int i=zikan; i<=zikan; i++){ // 軌跡を表示するならfor (int i=0; i<=zikan; i++){
+int chikuseki = 0; // 点を蓄積して軌跡を表示する場合は0よりも大きくする。
+for (int i=max(0, zikan-chikuseki); i<=zikan; i++){ 
 
+  println(msecZikan[i]+" msec");
   
   for(int j=0; j<kansetsuKazu; j++){
   pushMatrix();
   noStroke();  
 
-fill(iro[0]); //  fill(iro[j]);  
+fill(iro[j]); 
 lights();
   translate(kansetsuPoints[j][i].x, kansetsuPoints[j][i].y, kansetsuPoints[j][i].z);
   sphere(12);

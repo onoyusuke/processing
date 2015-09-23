@@ -22,7 +22,7 @@ int Kazu=k_namae.length;
 // 保存用の変数
 int kiroku_rate = 10;// 1秒あたりの取得データ数
 int kiroku_shuki = 1000/kiroku_rate; // 周期
-int kiroku_byo = 5;// 計測時間
+int kiroku_byo = 10;// 計測時間
 int kiroku_su = kiroku_byo * kiroku_rate; // 記録数
 int keika; //プログラムが開始してからの経過時間をミリ秒で測る。
 int kaishi; // tabが押された時間を記録
@@ -36,7 +36,7 @@ JSONObject json;
 JSONArray values;
 void setup() {
   kinect = new SimpleOpenNI(this);
-  kinect.setMirror(true);
+  kinect.setMirror(false);
   kinect.enableDepth();
   kinect.enableRGB();
   kinect.enableUser();
