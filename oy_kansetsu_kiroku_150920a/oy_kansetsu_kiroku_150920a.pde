@@ -140,6 +140,7 @@ void draw() {
   }
     saveJSONArray (values, "../data_kansetsu/"+k_namae[j]+"_"+fname+".json");
    }
+    save("../data_kansetsu/"+fname+".tif");
   exit();
     
   }

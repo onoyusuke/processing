@@ -30,7 +30,7 @@ int hen = 2;  // 取得する領域の辺(hen)の長さ
 //
 
 // 記録ファイル名
-String fname = "./data/test";
+String fname = "../kokyu_data/test";
 
 // 円の数
 int Kazu = 3;
@@ -42,12 +42,12 @@ SimpleOpenNI kinect;
 PFont font;
 
 // 一秒あたり何枚記録するか
-int kiroku_rate = 10;
+int kiroku_rate = 20;
 
 // 時間単位
 int chosei = 1000/kiroku_rate;
 // 記録時間は秒で指定.
-int kiroku_byo = 30;
+int kiroku_byo = 60;
 int kirokuzikan = kiroku_byo*1000/chosei;
 
 // 記録する周期を計算
@@ -73,7 +73,7 @@ OyEn[] sono2 = new OyEn[Kazu];
 
 int mado = 70;
 int bairitsu = 4;
-int futosa = 3;
+int futosa = 2;
 int hyoziKazu = 600;
 
 float[][] gra = new float[Kazu][hyoziKazu];
